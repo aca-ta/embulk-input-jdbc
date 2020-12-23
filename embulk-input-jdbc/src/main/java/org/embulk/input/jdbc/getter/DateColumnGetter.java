@@ -3,6 +3,7 @@ package org.embulk.input.jdbc.getter;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import org.embulk.spi.PageBuilder;
 import org.embulk.spi.type.Type;
@@ -24,7 +25,8 @@ public class DateColumnGetter
     {
         Date date = from.getDate(fromIndex);
         if (date != null) {
-            value = Instant.ofEpochMilli(date.getTime());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            value = Instant.parse(sdf.format(date));
         }
     }
 
